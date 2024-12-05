@@ -58,12 +58,12 @@ def update_tree(*args):
     fractaltree(width // 2, height, length, math.pi / 2, depth, angle_branch)
 
 # Slider for adjusting the depth of the fractal tree (number of recursion levels)
-depth_slider = tk.Scale(root, from_=1, to=12, orient="horizontal", label="Tiefe", command=update_tree)
+depth_slider = tk.Scale(root, from_=1, to=12, orient="horizontal", label="Depth", command=update_tree)
 depth_slider.set(8)  # Set initial value for depth slider to 8
 depth_slider.pack()  # Add the depth slider to the window
 
 # Slider for adjusting the angle between the left and right branches
-angle_slider = tk.Scale(root, from_=10, to=90, orient="horizontal", label="Winkel", command=update_tree)
+angle_slider = tk.Scale(root, from_=10, to=90, orient="horizontal", label="Angle", command=update_tree)
 angle_slider.set(30)  # Set initial value for angle slider to 30 degrees
 angle_slider.pack()  # Add the angle slider to the window
 
