@@ -34,11 +34,11 @@ def update_tree(*args):
     canvas.delete("all")
     fractaltree(width // 2, height, length, math.pi / 2, depth, angle_branch)
 
-depth_slider = tk.Scale(root, from_=1, to=12, orient="horizontal", label="Tiefe", command=update_tree)
+depth_slider = tk.Scale(root, from_=1, to=12, orient="horizontal", label="Depth", command=update_tree)
 depth_slider.set(8)
 depth_slider.pack()
 
-angle_slider = tk.Scale(root, from_=10, to=90, orient="horizontal", label="Winkel", command=update_tree)
+angle_slider = tk.Scale(root, from_=10, to=90, orient="horizontal", label="Angle", command=update_tree)
 angle_slider.set(30)
 angle_slider.pack()
 
