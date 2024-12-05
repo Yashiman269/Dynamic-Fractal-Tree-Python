@@ -1,48 +1,74 @@
-import tkinter as tk
-import math
+import tkinter as tk  # Import the tkinter module for GUI elements
+import math  # Import the math module for mathematical functions
 
-
+# Create the main window (root) for the application
 root = tk.Tk()
 
+# Set the width and height for the canvas and window
 width = 1200
 height = 800
-length = 200
-line_width = 1
-root.geometry(f"{width}x{height+150}")
+length = 200  # Length of the initial line (the trunk of the tree)
+line_width = 1  # Line width for drawing the branches
+root.geometry(f"{width}x{height+150}")  # Set the size of the window (with extra space for sliders)
 
-canvas = tk.Canvas(root, width=width, height=height, bg="#3b3b3b")
-canvas.pack()
+# Create a canvas widget where the fractal tree will be drawn
+canvas = tk.Canvas(root, width=width, height=height, bg="#3b3b3b")  # Set background color to dark gray
+canvas.pack()  # Pack the canvas widget into the window
 
-
+# Recursive function to draw a fractal tree
 def fractaltree(x, y, length, angle, depth, angle_branch):
+    """
+    Recursively draws a fractal tree starting from point (x, y), with given branch length,
+    angle, recursion depth, and angle between branches.
+    
+    :param x: Starting x-coordinate of the branch
+    :param y: Starting y-coordinate of the branch
+    :param length: Length of the branch
+    :param angle: Angle of the branch relative to the horizontal axis
+    :param depth: Number of recursive levels (depth of the tree)
+    :param angle_branch: Angle between the left and right branches at each level
+    """
+    # Base case: if the depth is 0, stop the recursion
     if depth == 0:
         return
     
+    # Calculate the end point of the branch
     x_end = x + length * math.cos(angle)
-    y_end = y - length * math.sin(angle)
+    y_end = y - length * math.sin(angle)  # y is decreasing as we go up
 
+    # Draw the current branch on the canvas
     canvas.create_line(x, y, x_end, y_end, fill="white", width=line_width)
 
+    # Recursively draw the left and right branches, reducing the length and depth
     fractaltree(x_end, y_end, 0.75 * length, angle - angle_branch, depth - 1, angle_branch)
     fractaltree(x_end, y_end, 0.75 * length, angle + angle_branch, depth - 1, angle_branch)
 
-
+# Function to update the tree when the sliders are changed
 def update_tree(*args):
-    depth = depth_slider.get()
-    angle_branch = math.radians(angle_slider.get())
+    """
+    Updates the fractal tree based on the current values of the depth and angle sliders.
+    Clears the canvas and redraws the tree from the middle of the canvas.
+    """
+    # Get the current values from the sliders
+    depth = depth_slider.get()  # Depth of recursion
+    angle_branch = math.radians(angle_slider.get())  # Angle between branches in radians
 
+    # Clear the canvas and draw the tree again with updated parameters
     canvas.delete("all")
     fractaltree(width // 2, height, length, math.pi / 2, depth, angle_branch)
 
+# Slider for adjusting the depth of the fractal tree (number of recursion levels)
 depth_slider = tk.Scale(root, from_=1, to=12, orient="horizontal", label="Tiefe", command=update_tree)
-depth_slider.set(8)
-depth_slider.pack()
+depth_slider.set(8)  # Set initial value for depth slider to 8
+depth_slider.pack()  # Add the depth slider to the window
 
+# Slider for adjusting the angle between the left and right branches
 angle_slider = tk.Scale(root, from_=10, to=90, orient="horizontal", label="Winkel", command=update_tree)
-angle_slider.set(30)
-angle_slider.pack()
+angle_slider.set(30)  # Set initial value for angle slider to 30 degrees
+angle_slider.pack()  # Add the angle slider to the window
 
-
+# Initial call to draw the tree with default values from the sliders
 update_tree()
 
+# Start the tkinter main event loop (this keeps the application running)
 root.mainloop()
